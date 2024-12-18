@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/scaffold.dart';
 
+import 'fade_transition_page.dart';
 import 'loginPage.dart';
+import 'package:go_router/go_router.dart';
+
+
+
+final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 
 void main() {
   runApp(const MyApp());
@@ -12,18 +19,62 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Task Manager App',
       theme: ThemeData(
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      initialRoute: '/home', // Start with the login page
-      routes: {
-        '/login': (context) => const SignInHttp(title: 'Login Page'),
-        '/home': (context) => const MyHomePage(title: 'Home Page'),
-      },
+      routerConfig: GoRouter(
+        //refreshListenable: auth,
+        debugLogDiagnostics: true,
+        initialLocation: '/home',
+        // redirect: (context, state) {
+        // final signedIn = BookstoreAuth.of(context).signedIn;
+        // if (state.uri.toString() != '/sign-in' && !signedIn) {
+        // return '/sign-in';
+        // }
+        // return null;
+        // },
+        routes: [
+          ShellRoute(
+            navigatorKey: appShellNavigatorKey,
+            builder: (context, state, child) {
+              return BookstoreScaffold(
+                selectedIndex: switch (state.uri.path) {
+                  var p when p.startsWith('/home') => 0,
+                  var p when p.startsWith('/login') => 1,
+                  //var p when p.startsWith('/settings') => 2,
+                  _ => 0,
+                },
+                child: child,
+              );
+            },
+            routes: [
+              GoRoute(
+                path: '/home',
+                pageBuilder: (context, state) {
+                  return FadeTransitionPage<dynamic>(
+                    key: state.pageKey,
+                    child: const MyHomePage(title: 'Home Page'),
+                  );
+                },
+              ),
+              GoRoute(
+                path: '/login',
+                pageBuilder: (context, state) {
+                  return FadeTransitionPage<dynamic>(
+                    key: state.pageKey,
+                    child: const SignInHttp(title: 'Home Page'),
+                  );
+                },
+              ),
+            ],
+          ),
+
+        ],
+      ),
     );
   }
 }
