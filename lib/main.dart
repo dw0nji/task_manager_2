@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
                 pageBuilder: (context, state) {
                   return FadeTransitionPage<dynamic>(
                     key: state.pageKey,
-                    child: const SignInHttp(title: 'Home Page'),
+                    child: const SignInHttp(title: 'Login Page'),
                   );
                 },
               ),
