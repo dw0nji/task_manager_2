@@ -21,7 +21,7 @@ class BookstoreScaffold extends StatelessWidget {
         currentIndex: selectedIndex,
         onTap: (idx) {
           if (idx == 0) goRouter.go('/home');
-          if (idx == 1) goRouter.go('/login');
+          if (idx == 1) goRouter.go('/profile');
         },
         items: const [
           BottomNavigationBarItem(
@@ -30,7 +30,7 @@ class BookstoreScaffold extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Login',
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
