@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class BookstoreScaffold extends StatelessWidget {
+class TaskManagerScaffold extends StatelessWidget {
   final Widget child;
   final int selectedIndex;
 
-  const BookstoreScaffold({
+  const TaskManagerScaffold({
     required this.child,
     required this.selectedIndex,
     super.key,
@@ -17,6 +17,7 @@ class BookstoreScaffold extends StatelessWidget {
 
     return Scaffold(
       body: child,
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (idx) {
