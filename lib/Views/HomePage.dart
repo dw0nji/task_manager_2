@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/Views/widgets/task.dart';
+import '../Model/Task.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -12,7 +14,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final List<TimeContainer> _timeContainers = [];
+  @override
+  void initState() {
+    super.initState();
+    instantiateDay(); // Initialize 24 TimeContainer instances
+  }
+  void instantiateDay() {
+    //add functionality to get all tasks from the Model Through the controller??
+    setState(() {
+      _timeContainers.clear();
+      DateTime fromMidnight = DateTime(0,0,0,0,0,0,0);
+      for (int i = 0; i < 24; i++) {
+        _timeContainers.add(TimeContainer(date: fromMidnight.add(Duration(hours: i))));
+      }
+    });
+  }
 
   void updateTasks() {
     setState(() {
@@ -46,23 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.all(15.0),
-                      padding: const EdgeInsets.all(3.0),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.black12,
-                              width: 2.0,
-                            ),
-                          ),
-                      ),
-                      child:UserTaskUI(title: 'Dishes', description: 'Clean mugs and plates.', date: DateTime.now()),
-                    ),
-                    UserTaskUI(title: 'Homework', description: 'Finish assignments.', date: DateTime.now()),
-                  ],
+                  children: _timeContainers
+
+
                 ),
               ),
             ),
@@ -83,8 +86,10 @@ class TimeContainer extends StatefulWidget {
 }
 class _TimeContainerState extends State<TimeContainer>{
 
+
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: const EdgeInsets.all(15.0),
       padding: const EdgeInsets.all(3.0),
@@ -98,13 +103,15 @@ class _TimeContainerState extends State<TimeContainer>{
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget> [
             UserTaskUI(title: 'Dishes',
               description: 'Clean mugs and plates.',
               date: DateTime.now()
             ),
-            Text(widget.date.toString()),
+            Spacer(),
+            Text(DateFormat('HH:mm').format(widget.date)),
+
         ],
       ),
     );
