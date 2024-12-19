@@ -1,21 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-class UserTask {
-  UserTask({
-    required this.title,
-    required this.description,
-    required this.date,
-  }) : _ui = UserTaskUI(title: title, description: description, date: date);
-
-  final String title;
-  final String description;
-  final DateTime date;
-  final UserTaskUI _ui;
-  get getUI => _ui;
-
-}
-
 class UserTaskUI extends StatefulWidget {
   const UserTaskUI(
   {super.key,

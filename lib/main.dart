@@ -4,7 +4,7 @@ import 'package:task_manager/Views/scaffold.dart';
 import 'Views/HomePage.dart';
 import 'Views/ProfilePage.dart';
 import 'Model/auth.dart';
-import 'Views/fade_transition_page.dart';
+import 'Views/widgets/fade_transition_page.dart';
 import 'Views/loginPage.dart';
 import 'package:go_router/go_router.dart';
 
