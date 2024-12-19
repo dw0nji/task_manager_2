@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/scaffold.dart';
+import 'package:task_manager/Views/scaffold.dart';
 
-import 'HomePage.dart';
-import 'ProfilePage.dart';
-import 'auth.dart';
-import 'fade_transition_page.dart';
-import 'loginPage.dart';
+import 'Views/HomePage.dart';
+import 'Views/ProfilePage.dart';
+import 'Model/auth.dart';
+import 'Views/fade_transition_page.dart';
+import 'Views/loginPage.dart';
 import 'package:go_router/go_router.dart';
 
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
