@@ -8,8 +8,6 @@ import 'fade_transition_page.dart';
 import 'loginPage.dart';
 import 'package:go_router/go_router.dart';
 
-
-
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 
 void main() {
