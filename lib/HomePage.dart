@@ -41,29 +41,82 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints){
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints:
+                BoxConstraints(minHeight: viewportConstraints.maxHeight),
 
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            UserTaskUI(title: 'Dishes', description: 'Clean mugs and plates.', date: DateTime.now()),
-            UserTaskUI(title: 'Homework', description: 'Finish assignments.', date: DateTime.now()),
+              child: Center(
 
-            const Text(
-              'You have pushed the button this many times:',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(3.0),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.black12,
+                              width: 2.0,
+                            ),
+                          ),
+                      ),
+                      child:UserTaskUI(title: 'Dishes', description: 'Clean mugs and plates.', date: DateTime.now()),
+                    ),
+                    UserTaskUI(title: 'Homework', description: 'Finish assignments.', date: DateTime.now()),
+                  ],
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+          );
+        }
+      ),
+      );
+  }
+}
+
+class TimeContainer extends StatefulWidget {
+  const TimeContainer({super.key, required this.date});
+
+  final DateTime date;
+
+  @override
+  State<TimeContainer> createState() => _TimeContainerState();
+}
+class _TimeContainerState extends State<TimeContainer>{
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(3.0),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.black12,
+            width: 2.0,
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget> [
+            UserTaskUI(title: 'Dishes',
+              description: 'Clean mugs and plates.',
+              date: DateTime.now()
+            ),
+            Text(widget.date.toString()),
+        ],
+      ),
     );
+
+
+
   }
+
 }
