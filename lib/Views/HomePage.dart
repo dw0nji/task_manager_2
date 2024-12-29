@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/Views/widgets/task.dart';
-import '../Model/Task.dart';
 import 'package:intl/intl.dart';
 
+import '../Controllers/MainController.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -14,31 +17,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<TimeContainer> _timeContainers = [];
-  @override
-  void initState() {
-    super.initState();
-    instantiateDay(); // Initialize 24 TimeContainer instances
-  }
-  void instantiateDay() {
-    //add functionality to get all tasks from the Model Through the controller??
-    setState(() {
-      _timeContainers.clear();
-      DateTime fromMidnight = DateTime(0,0,0,0,0,0,0);
-      for (int i = 0; i < 24; i++) {
-        _timeContainers.add(TimeContainer(date: fromMidnight.add(Duration(hours: i))));
-      }
-    });
-  }
-
-  void updateTasks() {
-    setState(() {
-
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    var data = Provider.of<MainController>(context).getTasks().toList();
+    data.sort((a, b) => a.date.compareTo(b.date));
+
+    final List<TimeContainer> timeContainers2 = [];
+    DateTime fromMidnight = DateTime(0,0,0,0,0,0,0);
+
+    int counter = 0; // counter for data
+    for (int i = 0; i < 24; i++) {
+      DateTime current = fromMidnight.add(Duration(hours: i));
+
+
+      if(counter < data.length && data[counter].date.hour == current.hour) {
+        TimeContainer container = TimeContainer(date: current,
+            task: UserTaskUI(title: data[counter].title,
+                description: data[counter].description,
+                date: current));
+        timeContainers2.add(container);
+
+        i--; // after a successfull add, try the same day to see if more exist
+        counter++;
+      }else{
+        TimeContainer container = TimeContainer(date: current);
+        timeContainers2.add(container);
+      }
+    }
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -46,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -54,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints){
+
           return SingleChildScrollView(
             child: ConstrainedBox(
               constraints:
@@ -63,8 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: _timeContainers
-
+                  children: timeContainers2
 
                 ),
               ),
@@ -76,20 +83,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class TimeContainer extends StatefulWidget {
-  const TimeContainer({super.key, required this.date});
 
+class TimeContainer extends StatefulWidget {
+  //const TimeContainer ({required Key key, required this.date}) : super(key: key);
+
+  const TimeContainer({super.key, required this.date, this.task});
   final DateTime date;
+  final UserTaskUI? task;
 
   @override
-  State<TimeContainer> createState() => _TimeContainerState();
+  State<TimeContainer> createState() => TimeContainerState();
 }
-class _TimeContainerState extends State<TimeContainer>{
-
+class TimeContainerState extends State<TimeContainer>{
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       margin: const EdgeInsets.all(15.0),
       padding: const EdgeInsets.all(3.0),
@@ -105,19 +113,16 @@ class _TimeContainerState extends State<TimeContainer>{
       child: Row(
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget> [
-            UserTaskUI(title: 'Dishes',
-              description: 'Clean mugs and plates.',
-              date: DateTime.now()
-            ),
-            Spacer(),
-            Text(DateFormat('HH:mm').format(widget.date)),
+          widget.task != null ? widget.task! : Spacer(),
+          Spacer(),
+          Text(DateFormat('HH:mm').format(widget.date)),
 
         ],
       ),
     );
 
-
-
   }
 
 }
+
+

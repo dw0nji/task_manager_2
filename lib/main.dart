@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_manager/Controllers/DBController.dart';
 import 'package:task_manager/Views/scaffold.dart';
 
+import 'Controllers/MainController.dart';
 import 'Views/HomePage.dart';
 import 'Views/ProfilePage.dart';
 import 'Model/auth.dart';
@@ -11,19 +14,36 @@ import 'package:go_router/go_router.dart';
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 
 void main() {
-  runApp(const MyApp());
+
+
+  //runs the app with the provider being our MainController.
+  //This allows the controller to manage/change the state of our views and also
+  //communicate with out views
+  runApp(
+      ChangeNotifierProvider(
+        create: (context) => MainController(),
+        child: const MyApp(),
+      ),
+  );
 }
 
 class MyApp extends StatefulWidget{
   const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 
 }
 
 class _MyAppState extends State<MyApp> {
-  final AppAuth auth = AppAuth();
+  ProfilePage? myProfilePage;
+  final myHomePage = const MyHomePage(title: 'Home Page');
+  final myLoginPage = const SignInHttp(title: 'Login Page');
+  @override
+  void initState() {
+    super.initState();
+    myProfilePage = ProfilePage(title: 'Profile Page'); // Assign ProfilePage.
+
+  }
 
   // This widget is the root of your application.
   @override
@@ -35,8 +55,11 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      routerConfig: GoRouter(
-        //refreshListenable: auth,
+      routerConfig: GoRouter( //allows us to easily call pages within our navigation
+        //                      and also allows us to wrap logic around each page
+        //                      e.g. We can add extra security by wrapping a page with
+        //                      our auth object from the controller to check whether someone
+        //                      is signed in or not.
         debugLogDiagnostics: true,
         initialLocation: '/home',
         // redirect: (context, state) {
@@ -66,7 +89,7 @@ class _MyAppState extends State<MyApp> {
                 pageBuilder: (context, state) {
                   return FadeTransitionPage<dynamic>(
                     key: state.pageKey,
-                    child: const MyHomePage(title: 'Home Page'),
+                    child: myHomePage,
                   );
                 },
               ),
@@ -75,7 +98,7 @@ class _MyAppState extends State<MyApp> {
                 pageBuilder: (context, state) {
                   return FadeTransitionPage<dynamic>(
                     key: state.pageKey,
-                    child: ProfilePage(title: 'ProfilePage', auth: auth),
+                    child: myProfilePage != null ? myProfilePage! : const Center(child: CircularProgressIndicator()),
                   );
                 },
               ),
@@ -88,7 +111,7 @@ class _MyAppState extends State<MyApp> {
             pageBuilder: (context, state) {
               return FadeTransitionPage<dynamic>(
                 key: state.pageKey,
-                child: const SignInHttp(title: 'Login Page'),
+                child: myLoginPage,
               );
             },
           ),

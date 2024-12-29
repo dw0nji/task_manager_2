@@ -6,7 +6,11 @@ class User {
   String username;
   HashSet<Task> tasks;
   User(this.username):
-    tasks = new HashSet<Task>();
+    tasks = HashSet<Task>();
+
+  User.noName()
+      : tasks = HashSet<Task>(),
+  username = "";
 
   // Get the username
   String getUsername() {

@@ -38,7 +38,7 @@ class _UserTaskState extends State<UserTaskUI>{
               widget.title,
             ),
             Text(
-              widget.description   ?? '',
+              widget.description ?? '',
             ),
           ],
         ),

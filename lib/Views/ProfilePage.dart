@@ -1,39 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../Controllers/MainController.dart';
 import '../Model/auth.dart';
 
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.title, required this.auth});
+  const ProfilePage({super.key, required this.title});
 
   final String title;
-  final AppAuth auth;
-
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late final AppAuth auth;
-
-  @override
-  void initState() {
-    super.initState();
-    auth = widget.auth; // Initialize the auth object here
-  }
 
   @override
   Widget build(BuildContext context) {
     final goRouter = GoRouter.of(context);
+    final AppAuth auth = Provider.of<MainController>(context, listen: false).getAuth;
 
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
