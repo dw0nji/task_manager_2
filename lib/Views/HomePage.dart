@@ -87,14 +87,23 @@ class _MyHomePageState extends State<MyHomePage> {
 class TimeContainer extends StatefulWidget {
   //const TimeContainer ({required Key key, required this.date}) : super(key: key);
 
-  const TimeContainer({super.key, required this.date, this.task});
+  TimeContainer({super.key, required this.date, this.task});
   final DateTime date;
-  final UserTaskUI? task;
+  UserTaskUI? task;
 
   @override
   State<TimeContainer> createState() => TimeContainerState();
 }
 class TimeContainerState extends State<TimeContainer>{
+
+  void handleAddTask(){
+
+    setState(() {
+      widget.task = UserTaskUI(title: "test task",
+          description: "bla bla bla",
+          date: widget.date);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,15 +119,19 @@ class TimeContainerState extends State<TimeContainer>{
           ),
         ),
       ),
-      child: Row(
+      child: InkWell(
+        onTap: widget.task != null ? null : handleAddTask,
+        child: Row(
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget> [
-          widget.task != null ? widget.task! : Spacer(),
+          widget.task != null ? widget.task! :Spacer(),
+
           Spacer(),
           Text(DateFormat('HH:mm').format(widget.date)),
 
         ],
-      ),
+        ),
+      )
     );
 
   }
