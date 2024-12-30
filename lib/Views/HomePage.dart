@@ -74,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: double.infinity, // Fills the width of the screen
                     height: 50, // Adjust height as needed
                     color: Colors.green, // Set any color you want
+                    margin: const EdgeInsets.only(bottom: 15),
                     child: Center(
                       child: Text(
                         'Calendar Scroll',
@@ -81,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ),
+
                   Expanded(child:
                     SingleChildScrollView(
                       child: ConstrainedBox(
