@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task_manager/Model/Task.dart';
 import 'package:task_manager/Views/widgets/task.dart';
 import 'package:intl/intl.dart';
 
@@ -62,20 +63,58 @@ class _MyHomePageState extends State<MyHomePage> {
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints){
 
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints:
-                BoxConstraints(minHeight: viewportConstraints.maxHeight),
+          return
+            Stack(
+              children: [
+                Column(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-              child: Center(
+                children: [
+                  Container(
+                    width: double.infinity, // Fills the width of the screen
+                    height: 50, // Adjust height as needed
+                    color: Colors.green, // Set any color you want
+                    child: Center(
+                      child: Text(
+                        'Calendar Scroll',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  Expanded(child:
+                    SingleChildScrollView(
+                      child: ConstrainedBox(
+                        constraints:
+                          BoxConstraints(minHeight: viewportConstraints.maxHeight),
 
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: timeContainers2
+                        child:
+                            Center(
 
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: timeContainers2
+
+                              ),
+                            ),
+                      ),
+                    ),
+                  )
+                ]
                 ),
-              ),
-            ),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  padding: const EdgeInsets.all(20.0),
+                  child: 
+                  FloatingActionButton(
+                    //TODO: This onPressed is temporary and just tests the functionality of adding a task.
+                    onPressed: (){Provider.of<MainController>(context, listen: false).addTask(Task("hello", "no", DateTime(0,0,0,15,20)));},
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                  )
+                ),
+              ],
           );
         }
       ),
