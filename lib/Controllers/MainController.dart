@@ -31,8 +31,6 @@ class MainController extends ChangeNotifier {
     _user.addTask(Task("be sigma", " so so sigma", DateTime(0,0,0,2)));
     _user.addTask(Task("be sigma 2", " so so sigma 2", DateTime(0,0,0,2)));
 
-
-
   }
   HashSet<Task> getTasks() {
     return _user.getTasks();
@@ -41,6 +39,10 @@ class MainController extends ChangeNotifier {
   void addTask(Task task) {
     _user.addTask(task);
     notifyListeners(); //notifies everyone listening to update
+  }
+  void removeTask(Task task){
+    _user.removeTask(task);
+    notifyListeners();
   }
 
 

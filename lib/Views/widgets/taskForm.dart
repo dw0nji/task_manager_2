@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/Model/Task.dart';
-
 import '../../Controllers/MainController.dart';
+import 'package:date_field/date_field.dart';
+
 
 class TaskForm extends StatefulWidget{
-  const TaskForm({super.key});
+  TaskForm({super.key,this.defaultDate});
+  DateTime? defaultDate;
 
   @override
   State<TaskForm> createState() => _TaskFormState();
@@ -17,12 +19,19 @@ class _TaskFormState extends State<TaskForm>{
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _description = '';
+  DateTime _date = DateTime.now();
 
+  @override
+  void initState() {
+    super.initState();
+    _date = widget.defaultDate != null ? widget.defaultDate!: DateTime.now() ;
+
+  }
 
   void _onSubmit(){
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save(); // Save the form data
-      Provider.of<MainController>(context, listen: false).addTask(Task(_title, _description, DateTime(0,0,0,5,20)));
+      Provider.of<MainController>(context, listen: false).addTask(Task(_title, _description, _date));
       Navigator.pop(context);
     }
   }
@@ -78,6 +87,15 @@ class _TaskFormState extends State<TaskForm>{
               },
               onSaved: (value){
                 _description = value!;
+              },
+            ),
+            DateTimeField(
+              value: _date,
+              decoration: const InputDecoration(labelText: 'Enter DateTime'),
+              onChanged: (DateTime? value){
+                _date = value!;
+
+
               },
             )
           ],

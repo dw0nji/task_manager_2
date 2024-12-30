@@ -57,10 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
       if(counter < data.length && data[counter].date.hour == current.hour) {
-        TimeContainer container = TimeContainer(date: current,
-            task: UserTaskUI(title: data[counter].title,
-                description: data[counter].description,
-                date: current));
+        TimeContainer container =
+        TimeContainer(date: current,
+            task: UserTaskUI(task:data[counter])
+            );
         timeContainers2.add(container);
 
         i--; // after a successfull add, try the same day to see if more exist
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    TaskForm taskForm = TaskForm();
+
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
@@ -173,7 +173,7 @@ class TimeContainerState extends State<TimeContainer>{
           heightFactor: 0.50, // Quarter of the screen height
           child: Padding(
             padding: const EdgeInsets.all(16.0), // Add padding for aesthetics
-            child: TaskForm(),
+            child: TaskForm(defaultDate: widget.date,),
           ),
         );
       },

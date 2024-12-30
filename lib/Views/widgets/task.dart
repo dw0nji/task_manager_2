@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../Controllers/MainController.dart';
+import '../../Model/Task.dart';
 
 class UserTaskUI extends StatefulWidget {
   const UserTaskUI(
   {super.key,
-    required this.title,
-    this.description,
-    required this.date,
+    required this.task,
   }
-
 );
-  final String title;
-  final String? description;
-  final DateTime date;
+  final Task task;
 
   @override
   State<UserTaskUI> createState() => _UserTaskState();
 }
 
 class _UserTaskState extends State<UserTaskUI>{
-  bool showChild= true;
 
   void destroy(){
-    setState(() {
-      showChild = false;
-    });
+    Provider.of<MainController>(context, listen: false).removeTask(widget.task);
   }
 
   @override
@@ -31,14 +27,13 @@ class _UserTaskState extends State<UserTaskUI>{
     return GestureDetector(
         onTap: destroy,
         child: Visibility(
-          visible: showChild,
           child: Column(
           children: <Widget>[
             Text(
-              widget.title,
+              widget.task.title,
             ),
             Text(
-              widget.description ?? '',
+              widget.task.description,
             ),
           ],
         ),
