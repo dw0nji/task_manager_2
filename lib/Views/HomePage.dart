@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:task_manager/Model/Task.dart';
 import 'package:task_manager/Views/widgets/task.dart';
 import 'package:intl/intl.dart';
+import 'package:task_manager/Views/widgets/taskForm.dart';
 
 import '../Controllers/MainController.dart';
 
@@ -18,6 +19,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  void taskFormPopup(){
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Allows finer control over height
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16), // Rounded corners at the top
+        ),
+      ),
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.50, // Quarter of the screen height
+          child: Padding(
+            padding: const EdgeInsets.all(16.0), // Add padding for aesthetics
+            child: TaskForm(),
+          ),
+        );
+      },
+    );
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
+    TaskForm taskForm = TaskForm();
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
@@ -108,8 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(20.0),
                   child: 
                   FloatingActionButton(
-                    //TODO: This onPressed is temporary and just tests the functionality of adding a task.
-                    onPressed: (){Provider.of<MainController>(context, listen: false).addTask(Task("hello", "no", DateTime(0,0,0,15,20)));},
+                    onPressed: taskFormPopup,
+                    //onPressed: (){Provider.of<MainController>(context, listen: false).addTask(Task("hello", "no", DateTime(0,0,0,15,20)));},
                     child: Icon(
                       Icons.add,
                       color: Colors.white,
@@ -124,11 +146,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
 class TimeContainer extends StatefulWidget {
   //const TimeContainer ({required Key key, required this.date}) : super(key: key);
-
   TimeContainer({super.key, required this.date, this.task});
+
   final DateTime date;
   UserTaskUI? task;
 
@@ -139,11 +160,24 @@ class TimeContainerState extends State<TimeContainer>{
 
   void handleAddTask(){
 
-    setState(() {
-      widget.task = UserTaskUI(title: "test task",
-          description: "bla bla bla",
-          date: widget.date);
-    });
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Allows finer control over height
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16), // Rounded corners at the top
+        ),
+      ),
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.50, // Quarter of the screen height
+          child: Padding(
+            padding: const EdgeInsets.all(16.0), // Add padding for aesthetics
+            child: TaskForm(),
+          ),
+        );
+      },
+    );
   }
 
   @override
