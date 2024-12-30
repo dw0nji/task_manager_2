@@ -45,31 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<MainController>(context).getTasks().toList();
-    data.sort((a, b) => a.date.compareTo(b.date));
-
-    final List<TimeContainer> timeContainers2 = [];
-    DateTime fromMidnight = DateTime(0,0,0,0,0,0,0);
-
-    int counter = 0; // counter for data
-    for (int i = 0; i < 24; i++) {
-      DateTime current = fromMidnight.add(Duration(hours: i));
-
-
-      if(counter < data.length && data[counter].date.hour == current.hour) {
-        TimeContainer container =
-        TimeContainer(date: current,
-            task: UserTaskUI(task:data[counter])
-            );
-        timeContainers2.add(container);
-
-        i--; // after a successfull add, try the same day to see if more exist
-        counter++;
-      }else{
-        TimeContainer container = TimeContainer(date: current);
-        timeContainers2.add(container);
-      }
-    }
 
 
     // The Flutter framework has been optimized to make rerunning build methods
@@ -106,22 +81,53 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
 
                   Expanded(child:
-                    SingleChildScrollView(
-                      child: ConstrainedBox(
-                        constraints:
-                          BoxConstraints(minHeight: viewportConstraints.maxHeight),
+                    Consumer<MainController>(
+                      builder: (context, controller, child) {
+                        var data = controller.getTasks().toList();
+                        data.sort((a, b) => a.date.compareTo(b.date));
 
-                        child:
-                            Center(
+                        final List<TimeContainer> timeContainers2 = [];
+                        DateTime fromMidnight = DateTime(0,0,0,0,0,0,0);
+
+                        int counter = 0; // counter for data
+                        for (int i = 0; i < 24; i++) {
+                          DateTime current = fromMidnight.add(Duration(hours: i));
+
+
+                          if(counter < data.length && data[counter].date.hour == current.hour) {
+                            TimeContainer container =
+                            TimeContainer(date: current,
+                                task: UserTaskUI(task:data[counter])
+                            );
+                            timeContainers2.add(container);
+
+                            i--; // after a successfull add, try the same day to see if more exist
+                            counter++;
+                          }else{
+                            TimeContainer container = TimeContainer(date: current);
+                            timeContainers2.add(container);
+                          }
+                        }
+
+
+                        return SingleChildScrollView(
+                          child: ConstrainedBox(
+                            constraints:
+                            BoxConstraints(minHeight: viewportConstraints.maxHeight),
+
+                            child:
+                              Center(
 
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: timeContainers2
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: timeContainers2
 
                               ),
                             ),
-                      ),
-                    ),
+                          ),
+                        );
+                      },
+                    )
                   )
                 ]
                 ),
