@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/Model/Task.dart';
+import 'package:task_manager/Views/widgets/Calendar_Scrollable_Section.dart';
 import 'package:task_manager/Views/widgets/task.dart';
 import 'package:intl/intl.dart';
 import 'package:task_manager/Views/widgets/taskForm.dart';
@@ -67,18 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
                 children: [
-                  Container(
-                    width: double.infinity, // Fills the width of the screen
-                    height: 50, // Adjust height as needed
-                    color: Colors.green, // Set any color you want
-                    margin: const EdgeInsets.only(bottom: 15),
-                    child: Center(
-                      child: Text(
-                        'Calendar Scroll',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    ),
-                  ),
+                  CalendarScrollableSection(),
 
                   Expanded(child:
                     Consumer<MainController>(
@@ -92,8 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         int counter = 0; // counter for data
                         for (int i = 0; i < 24; i++) {
                           DateTime current = fromMidnight.add(Duration(hours: i));
-
-
                           if(counter < data.length && data[counter].date.hour == current.hour) {
                             TimeContainer container =
                             TimeContainer(date: current,
