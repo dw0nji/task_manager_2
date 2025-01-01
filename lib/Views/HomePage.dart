@@ -12,8 +12,9 @@ import '../Controllers/MainController.dart';
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.current});
   final String title;
+  final DateTime current;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -73,8 +74,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(child:
                     Consumer<MainController>(
                       builder: (context, controller, child) {
-                        var data = controller.getTasks().toList();
+                        var data = controller.getTasks(widget.current).toList();
                         data.sort((a, b) => a.date.compareTo(b.date));
+                        //print(data.toString());
 
                         final List<TimeContainer> timeContainers2 = [];
                         DateTime fromMidnight = DateTime(0,0,0,0,0,0,0);
@@ -96,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             timeContainers2.add(container);
                           }
                         }
-
 
                         return SingleChildScrollView(
                           child: ConstrainedBox(

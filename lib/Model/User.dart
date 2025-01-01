@@ -21,6 +21,18 @@ class User {
   HashSet<Task> getTasks() {
     return tasks;
   }
+  HashSet<Task> getTasksByDay(DateTime time) {
+    HashSet<Task> filteredTasks = HashSet();
+    for(var task in tasks){
+      //print("${task.title}: and ${task.date}");
+      if (task.date.year == time.year &&
+          task.date.month == time.month &&
+          task.date.day == time.day) {
+        filteredTasks.add(task); // Add the task if it matches
+      }
+    }
+    return filteredTasks;
+  }
 
   // Add a task
   void addTask(Task task) {
