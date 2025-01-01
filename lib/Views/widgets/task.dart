@@ -28,11 +28,18 @@ class _UserTaskState extends State<UserTaskUI>{
         onTap: destroy,
         child: Visibility(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 0,
           children: <Widget>[
             Text(
+              textAlign: TextAlign.left,
+              style: TextStyle(fontSize:20, fontWeight: FontWeight.w500),
               widget.task.title,
             ),
             Text(
+              textAlign: TextAlign.left,
+
+              style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.w500),
               widget.task.description,
             ),
           ],
