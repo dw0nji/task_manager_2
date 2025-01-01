@@ -36,7 +36,6 @@ class MyApp extends StatefulWidget{
 
 class _MyAppState extends State<MyApp> {
   ProfilePage? myProfilePage;
-  final myHomePage = const MyHomePage(title: 'Home Page');
   final myLoginPage = const SignInHttp(title: 'Login Page');
   @override
   void initState() {
@@ -89,8 +88,30 @@ class _MyAppState extends State<MyApp> {
                 pageBuilder: (context, state) {
                   return FadeTransitionPage<dynamic>(
                     key: state.pageKey,
-                    child: myHomePage,
+                    child: MyHomePage(title: "Home Page", current: DateTime.now()),
                   );
+                },
+              ),
+              GoRoute(
+                path: "/home/:day",
+                pageBuilder: (context, state) {
+                  var unParsedDay = state.pathParameters["day"];
+                  try {
+                    DateTime parsedDay = DateTime.parse(unParsedDay!);
+                    return FadeTransitionPage<dynamic>(
+                      key: state.pageKey,
+                      child: MyHomePage(title: "Home Page", current: parsedDay),
+                    );
+                  }catch (e){
+                    print("error: $e");
+                    return FadeTransitionPage<dynamic>(
+                      key: state.pageKey,
+                      child: MyHomePage(title: "Home Page", current: DateTime.now()),
+                    );
+
+
+                  }
+
                 },
               ),
               GoRoute(
