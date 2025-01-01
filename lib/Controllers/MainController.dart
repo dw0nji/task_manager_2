@@ -26,14 +26,14 @@ class MainController extends ChangeNotifier {
   void _init(){
 
     //Test data
-    _user.addTask(Task("poo", "hello", DateTime(0,0,0,0,0)));
-    _user.addTask(Task("drink water", "drink 2L", DateTime(0,0,0,5)));
-    _user.addTask(Task("be sigma", " so so sigma", DateTime(0,0,0,2)));
-    _user.addTask(Task("be sigma 2", " so so sigma 2", DateTime(0,0,0,2)));
+    _user.addTask(Task("poo", "hello", DateTime.now()));
+    _user.addTask(Task("drink water", "drink 2L", DateTime(2025,1,1,5)));
+    _user.addTask(Task("be sigma", " so so sigma", DateTime(2025,1,1,2)));
+    _user.addTask(Task("be sigma 2", " so so sigma 2", DateTime(2025,1,1,2)));
 
   }
-  HashSet<Task> getTasks() {
-    return _user.getTasks();
+  HashSet<Task> getTasks(DateTime? date) {
+    return date == null ? _user.getTasks() : _user.getTasksByDay(date!);
   }
 
   void addTask(Task task) {
