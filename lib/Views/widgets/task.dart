@@ -25,11 +25,10 @@ class _UserTaskState extends State<UserTaskUI>{
   @override
   Widget build(BuildContext context) {
     var customColor = Colors.red;
-
-    if (widget.task.date.isAfter(DateTime.now()) || widget.task.date.isAtSameMomentAs(DateTime.now())) {
-      customColor = Colors.green;
-    } else if (widget.task.date.difference(DateTime.now()).inHours > -5){
+    if (DateTime.now().difference(widget.task.date).inHours > -5 && widget.task.date.isAfter(DateTime.now())){
       customColor = Colors.orange;
+    }else if (widget.task.date.isAfter(DateTime.now())) {
+      customColor = Colors.green;
     }
 
     return GestureDetector(
