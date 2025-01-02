@@ -24,10 +24,27 @@ class _UserTaskState extends State<UserTaskUI>{
 
   @override
   Widget build(BuildContext context) {
+    var customColor = Colors.red;
+
+    if (widget.task.date.isAfter(DateTime.now()) || widget.task.date.isAtSameMomentAs(DateTime.now())) {
+      customColor = Colors.green;
+    } else if (widget.task.date.difference(DateTime.now()).inHours > -5){
+      customColor = Colors.orange;
+    }
+
     return GestureDetector(
         onTap: destroy,
         child: Visibility(
-          child: Column(
+          child: Row(
+          spacing: 5,
+          children: <Widget>[
+
+          Icon(
+            Icons.circle_outlined,
+            color: customColor,
+            size: 24,
+          ),
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 0,
           children: <Widget>[
@@ -43,6 +60,8 @@ class _UserTaskState extends State<UserTaskUI>{
               widget.task.description,
             ),
           ],
+        ),
+          ]
         ),
         )
     );
