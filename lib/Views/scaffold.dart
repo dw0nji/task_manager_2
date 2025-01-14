@@ -21,7 +21,7 @@ class TaskManagerScaffold extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (idx) {
-          if (idx == 0) goRouter.go('/l');
+          if (idx == 0) goRouter.go('/home');
           if (idx == 1) goRouter.go('/profile');
         },
         items: const [

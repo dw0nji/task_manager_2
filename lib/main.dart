@@ -124,7 +124,7 @@ class _MyAppState extends State<MyApp> {
 
           ),
           GoRoute(
-            path: '/l',
+            path: '/login',
             pageBuilder: (context, state) {
               return FadeTransitionPage<dynamic>(
                 key: state.pageKey,
