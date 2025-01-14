@@ -45,8 +45,4 @@ class MainController extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
-
-
 }
