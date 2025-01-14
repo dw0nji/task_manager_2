@@ -6,7 +6,6 @@ import 'package:task_manager/Views/scaffold.dart';
 import 'Controllers/MainController.dart';
 import 'Views/HomePage.dart';
 import 'Views/ProfilePage.dart';
-import 'Model/auth.dart';
 import 'Views/widgets/fade_transition_page.dart';
 import 'Views/loginPage.dart';
 import 'package:go_router/go_router.dart';
@@ -14,8 +13,6 @@ import 'package:go_router/go_router.dart';
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 
 void main() {
-
-
   //runs the app with the provider being our MainController.
   //This allows the controller to manage/change the state of our views and also
   //communicate with out views
@@ -31,12 +28,11 @@ class MyApp extends StatefulWidget{
   const MyApp({super.key});
   @override
   State<MyApp> createState() => _MyAppState();
-
 }
 
 class _MyAppState extends State<MyApp> {
   ProfilePage? myProfilePage;
-  final myLoginPage = const SignInHttp(title: 'Login Page');
+  final loginPage = LoginPage();
   @override
   void initState() {
     super.initState();
@@ -128,11 +124,11 @@ class _MyAppState extends State<MyApp> {
 
           ),
           GoRoute(
-            path: '/login',
+            path: '/l',
             pageBuilder: (context, state) {
               return FadeTransitionPage<dynamic>(
                 key: state.pageKey,
-                child: myLoginPage,
+                child: loginPage,
               );
             },
           ),
