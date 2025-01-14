@@ -175,6 +175,12 @@ class TimeContainerState extends State<TimeContainer>{
       },
     );
   }
+  bool compareNow(){
+    var now = DateTime.now();
+    return widget.date.year == now.year &&
+        widget.date.month == now.month &&
+        widget.date.day == now.day &&
+        widget.date.hour == now.hour;  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +204,7 @@ class TimeContainerState extends State<TimeContainer>{
           widget.task != null ? widget.task! :Spacer(),
 
           Spacer(),
-          Text(DateFormat('HH:mm').format(widget.date)),
+          Text(compareNow() ? "NOW" : DateFormat('HH:mm').format(widget.date)),
 
         ],
         ),
