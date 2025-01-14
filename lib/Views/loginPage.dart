@@ -1,130 +1,169 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:json_annotation/json_annotation.dart';
+import 'package:task_manager/Views/components/customButton.dart';
+import 'package:task_manager/Views/components/customTextField.dart';
+import 'package:task_manager/Views/components/imageButton.dart';
 
-part 'loginPage_g.dart';
+class LoginPage extends StatelessWidget {
+  LoginPage ({super.key});
 
-@JsonSerializable()
-class FormData {
-  String? email;
-  String? password;
+  // Text editing controllers
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  FormData({
-    this.email,
-    this.password,
-  });
-
-  factory FormData.fromJson(Map<String, dynamic> json) =>
-      _$FormDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FormDataToJson(this);
-}
-
-class SignInHttp extends StatefulWidget {
-  const SignInHttp({
-    this.httpClient,
-    super.key,
-    required this.title
-  });
-
-  final http.Client? httpClient;
-  final String title;
-
-  @override
-  State<SignInHttp> createState() => _SignInHttpState();
-}
-
-class _SignInHttpState extends State<SignInHttp> {
-  FormData formData = FormData();
+  // Sign in user method
+  void signUserIn() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Form(
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                ...[
-                  TextFormField(
-                    autofocus: true,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      filled: true,
-                      hintText: 'Your email address',
-                      labelText: 'Email',
-                    ),
-                    onChanged: (value) {
-                      formData.email = value;
-                    },
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      filled: true,
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    onChanged: (value) {
-                      formData.password = value;
-                    },
-                  ),
-                  TextButton(
-                    child: const Text('Sign in'),
-                    onPressed: () async {
-                      // Use a JSON encoded string to send
-                      var result = await widget.httpClient!.post(
-                          Uri.parse('https://example.com/signin'),//change to backend
-                          body: json.encode(formData.toJson()),
-                          headers: {'content-type': 'application/json'});
+      backgroundColor: Colors.grey[300],
+      body: SafeArea(
+        child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+        children: [
 
-                      _showDialog(switch (result.statusCode) {
-                        200 => 'Successfully signed in.',
-                        401 => 'Unable to sign in.',
-                        _ => 'Something went wrong. Please try again.'
-                      });
-                    },
-                  ),
-                ].expand(
-                      (widget) => [
-                    widget,
-                    const SizedBox(
-                      height: 24,
-                    )
-                  ],
+          const SizedBox (height: 50),
+
+          // Logo
+          Icon(
+            Icons.lock,
+            size: 100
+          ), // Change to actual icon
+
+          const SizedBox (height: 50),
+
+          //   Message
+          Text (
+            'Welcome back, {NAME}!',
+            style: TextStyle(
+              color: Colors.grey[700],
+              fontSize: 16,
+            ),
+          ),
+
+          const SizedBox (height: 25),
+
+          //   Username textfield
+          CustomTextField(
+            controller: usernameController,
+            hintText: 'Username',
+            obscureText: false,
+          ),
+
+          const SizedBox (height: 25),
+
+          CustomTextField(
+            controller: passwordController,
+            hintText: 'Password',
+            obscureText: true,
+          ),
+
+
+          // Forgot password
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Forgot Password?',
+                  style: TextStyle(color: Colors.grey[600]),
                 )
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
 
-  void _showDialog(String message) {
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(message),
-        actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () => Navigator.of(context).pop(),
+          const SizedBox (height: 25),
+
+
+
+      //   Submit button
+          CustomButton(
+            onTap: signUserIn,
           ),
+
+          const SizedBox (height: 25),
+
+      //   Continue with
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Divider(
+                    thickness: 0.5,
+                    color: Colors.grey[400],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(
+                    'Or continue with',
+                    style: TextStyle(color: Colors.grey[700])
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    thickness: 0.5,
+                    color: Colors.grey[400],
+                  ),
+                  ),
         ],
-      ),
+            ),
+
+          ),
+
+          const SizedBox (height: 25),
+      // Apple / Google
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            //   Google
+              ImageButton(imagePath: 'lib/assets/google.png'),
+
+            const SizedBox(width: 10),
+            //   Apple
+              ImageButton(imagePath: 'lib/assets/apple.png'),
+            ],
+          ),
+
+
+
+          const SizedBox(height: 25),
+
+      //   Register
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Not a member?',
+                  style: TextStyle(
+                    color: Colors.grey[400],
+                  )
+              ),
+
+              const SizedBox(width: 4),
+
+              const Text(
+                'Register now',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold
+                )
+              )
+            ],
+          )
+
+
+      ]
+    )
+    )
+    )
     );
   }
 }
