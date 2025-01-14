@@ -45,6 +45,14 @@ class MainController extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool containsDate(DateTime comparable) {
+    HashSet<Task> tasks = _user.getTasks();
+    return tasks.any((task) =>
+    task.date.year == comparable.year &&
+        task.date.month == comparable.month &&
+        task.date.day == comparable.day);
+  }
+
 
 
 
