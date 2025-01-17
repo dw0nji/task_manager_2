@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:task_manager/Views/firstPage.dart';
+import 'package:task_manager/Views/loginOrRegisterPage.dart';
 import 'package:task_manager/Views/loginPage.dart';
 
 class AuthPage extends StatelessWidget {
@@ -15,7 +16,7 @@ class AuthPage extends StatelessWidget {
           if (snapshot.hasData) { // If user is logged in
             return firstPage(); // Fix
           } else {
-            return LoginPage();
+            return LoginOrRegisterPage();
           }
         }
       )
