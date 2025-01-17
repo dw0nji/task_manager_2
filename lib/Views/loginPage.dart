@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -85,20 +85,21 @@ class _LoginPageState extends State<LoginPage> {
 
           const SizedBox (height: 50),
 
-          // Logo
-          Icon(
-            Icons.lock,
-            size: 100
-          ), // Change to actual icon
+          Image.asset(
+            'lib/assets/logo.png',
+            width: 100,
+            height: 100,
+          ),
 
-          const SizedBox (height: 50),
+          const SizedBox (height: 25),
 
           //   Message
           Text (
-            'Welcome back, {NAME}!',
+            'The Good Calendar',
             style: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 16,
+              color: Colors.grey[900],
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
             ),
           ),
 
@@ -111,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: false,
           ),
 
-          const SizedBox (height: 25),
+          const SizedBox (height: 15),
 
           CustomTextField(
             controller: passwordController,
@@ -119,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: true,
           ),
 
-          const SizedBox (height: 4),
+          const SizedBox (height: 10),
           // Forgot password
 
           Padding(
@@ -221,7 +222,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               )
             ],
-          )
+          ),
+          const SizedBox(height: 25),
       ]
     )
     )
