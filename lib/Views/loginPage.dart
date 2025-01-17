@@ -5,7 +5,8 @@ import 'package:task_manager/Views/components/customTextField.dart';
 import 'package:task_manager/Views/components/imageButton.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage ({super.key});
+  final Function()? onTap;
+  LoginPage ({super.key, required this.onTap});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -42,41 +43,32 @@ class _LoginPageState extends State<LoginPage> {
       // Pop loading circle
       Navigator.pop(context);
 
-      // Wrong email
-      if (e.code == 'user-not-found') {
-        incorrectEmailMessage();
+      // Handle wrong email
+      if (e.code == 'invalid-email') {
+        showErrorMessage("Cannot find an account with that email");
       }
-      // Wrong email
-      else if (e.code == 'wrong-password') {
-        incorrectPasswordMessage();
+      // Handle wrong password
+      else if (e.code == 'invalid-credential') {
+        showErrorMessage("Incorrect Password");
       }
     }
-
-
   }
 
-  // Future pass in the message
-
-  // Wrong email popup
-  void incorrectEmailMessage() {
-    showDialog
-      (context: context,
-        builder: (context) {
-        return const AlertDialog(
-          title: Text("Incorect Email"),
+  // Pop up error
+  void showErrorMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
         );
-        }
-    );
-  }
-  // Wrong password popup
-  void incorrectPasswordMessage() {
-    showDialog
-      (context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text("Incorrect Password"),
-          );
-        }
+      },
     );
   }
 
@@ -86,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
+          child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -149,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
       //   Submit button
           CustomButton(
             onTap: signUserIn,
+            text: "Sign In",
           ),
 
           const SizedBox (height: 25),
@@ -216,21 +210,23 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(width: 4),
 
-              const Text(
-                'Register now',
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold
-                )
+              GestureDetector(
+                onTap: widget.onTap,
+                child: const Text(
+                    'Register now',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold
+                    )
+                ),
               )
             ],
           )
-
-
       ]
     )
     )
     )
+      )
     );
   }
 }
