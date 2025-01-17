@@ -12,9 +12,7 @@ import '../Controllers/MainController.dart';
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.current});
-  final String title;
-  final DateTime current;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -57,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("Home Page"),
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints){
@@ -74,12 +72,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(child:
                     Consumer<MainController>(
                       builder: (context, controller, child) {
-                        var data = controller.getTasks(widget.current).toList();
+
+                        // Get the current date and time from the device
+                        DateTime now = DateTime.now();
+                        DateTime fromMidnight = DateTime(now.year, now.month, now.day); // Start of the day at midnight
+
+                        // Fetch tasks and sort them
+                        var data = controller.getTasks(now).toList();
                         data.sort((a, b) => a.date.compareTo(b.date));
+
                         //print(data.toString());
 
+                        // Process the tasks into time containers
                         final List<TimeContainer> timeContainers2 = [];
-                        DateTime fromMidnight = widget.current.copyWith(hour: 0, minute: 0);
                         //DateTime(0,0,0,0,0,0,0);
 
                         int counter = 0; // counter for data

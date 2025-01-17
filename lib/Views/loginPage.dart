@@ -41,9 +41,9 @@ class _LoginPageState extends State<LoginPage> {
       // Pop loading circle
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+
       // Pop loading circle
       Navigator.pop(context);
-
       // Handle wrong email
       if (e.code == 'invalid-email') {
         showErrorMessage("Cannot find an account with that email");
