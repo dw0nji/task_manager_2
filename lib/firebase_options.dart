@@ -47,7 +47,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAk5smU_JOFvvaePoYqRzVIddaiBcvB8ec',
+    apiKey: '<insert key>',
     appId: '1:687550089448:web:03086d53331d04e6e6e15d',
     messagingSenderId: '687550089448',
     projectId: 'task-manager-9d8c5',
@@ -56,7 +56,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCxK4161j9hUMMejV2XAniM6pPMfLtfyQE',
+    apiKey: '<insert key>',
     appId: '1:687550089448:android:6919b057947f3706e6e15d',
     messagingSenderId: '687550089448',
     projectId: 'task-manager-9d8c5',
@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAHUq-QzcSyn2AXuReS47rERrs3K2OKoLM',
+    apiKey: '<insert key>',
     appId: '1:687550089448:ios:fed5ac415d54af5ce6e15d',
     messagingSenderId: '687550089448',
     projectId: 'task-manager-9d8c5',
