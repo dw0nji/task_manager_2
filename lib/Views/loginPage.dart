@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/Views/components/customButton.dart';
 import 'package:task_manager/Views/components/customTextField.dart';
 import 'package:task_manager/Views/components/imageButton.dart';
+import 'package:task_manager/services/authService.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -185,11 +186,17 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
             //   Google
-              ImageButton(imagePath: 'lib/assets/google.png'),
+              ImageButton(
+                onTap: () => AuthService().signInWithGoogle(),
+                  imagePath: 'lib/assets/google.png'
+              ),
 
             const SizedBox(width: 10),
             //   Apple
-              ImageButton(imagePath: 'lib/assets/apple.png'),
+              ImageButton(
+                onTap: () {},
+                  imagePath: 'lib/assets/apple.png'
+              ),
             ],
           ),
 
