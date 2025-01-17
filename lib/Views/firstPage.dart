@@ -6,6 +6,8 @@ class firstPage extends StatelessWidget {
 
   final user = FirebaseAuth.instance.currentUser!;
 
+  // DO NOT DELETE
+  // This page will become settings
 
   // Sign user out
   void signOut() {
