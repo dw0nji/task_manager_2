@@ -82,7 +82,7 @@ class RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.white,
         body: SafeArea(
             child: Center(
                 child: SingleChildScrollView(
@@ -92,20 +92,21 @@ class RegisterPageState extends State<RegisterPage> {
 
                           const SizedBox (height: 50),
 
-                          // Logo
-                          Icon(
-                              Icons.lock,
-                              size: 100
-                          ), // Change to actual icon
+                          Image.asset(
+                            'lib/assets/logo.png',
+                            width: 100,
+                            height: 100,
+                          ),
 
-                          const SizedBox (height: 50),
+                          const SizedBox (height: 25),
 
                           //   Message
                           Text (
-                            'By joining you agree to sacrifice your data.',
+                            'The Good Calendar',
                             style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 16,
+                              color: Colors.grey[900],
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
 
@@ -118,7 +119,7 @@ class RegisterPageState extends State<RegisterPage> {
                             obscureText: false,
                           ),
 
-                          const SizedBox (height: 25),
+                          const SizedBox (height: 15),
 
                           CustomTextField(
                             controller: passwordController,
@@ -126,7 +127,7 @@ class RegisterPageState extends State<RegisterPage> {
                             obscureText: true,
                           ),
 
-                          const SizedBox (height: 25),
+                          const SizedBox (height: 15),
 
                           CustomTextField(
                             controller: confirmPasswordController,
@@ -136,12 +137,10 @@ class RegisterPageState extends State<RegisterPage> {
 
                           const SizedBox (height: 25),
 
-
-
                           //   Submit button
                           CustomButton(
                             onTap: signUserUp,
-                            text: "Create Account",
+                            text: "Continue",
                           ),
 
                           const SizedBox (height: 25),
@@ -220,7 +219,8 @@ class RegisterPageState extends State<RegisterPage> {
                                 ),
                               )
                             ],
-                          )
+                          ),
+                          const SizedBox(height: 25),
                         ]
                     )
                 )
