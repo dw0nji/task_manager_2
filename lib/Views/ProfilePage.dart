@@ -42,6 +42,17 @@ class ProfilePage extends StatelessWidget {
             Text('UID: ${user.uid}'),
             Text('Email: ${user.email ?? 'No email'}'),
             Text('Display Name: ${user.displayName ?? 'No display name'}'),
+            GestureDetector(
+              onTap: () async {
+                FirebaseAuth.instance.signOut();
+              },
+              child: Text(
+                "Signout",
+                style: TextStyle(
+                  color: Colors.redAccent,
+                ),
+              ),
+            )
           ],
         )
             : Text('No user signed in'),
