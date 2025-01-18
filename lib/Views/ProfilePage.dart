@@ -1,61 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-import '../Controllers/MainController.dart';
-import '../Model/auth.dart';
-
-
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final goRouter = GoRouter.of(context);
-    final AppAuth auth = Provider.of<MainController>(context, listen: false).getAuth;
+    final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+        backgroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
             Text(
-              'Profile',
+              "Profile",
+              style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            Text (auth.signedIn ? 'Signed in' : 'Sign in to view'
-
-              ),
-            TextButton(
-              // style: ButtonStyle(
-              //   foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              // ),
-              onPressed: () { goRouter.go('/login');},
-              child: Text('Login'),
-
+            IconButton(
+              icon: Icon(Icons.calendar_today, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-
           ],
-
         ),
       ),
-
+      body: Center(
+        child: user != null
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Profile image with rounded corners
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset("lib/assets/banner.png")
+            ),
+            SizedBox(height: 20),
+            Text('UID: ${user.uid}'),
+            Text('Email: ${user.email ?? 'No email'}'),
+            Text('Display Name: ${user.displayName ?? 'No display name'}'),
+          ],
+        )
+            : Text('No user signed in'),
+      ),
     );
   }
 }
