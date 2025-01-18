@@ -45,6 +45,7 @@ class _ListSceneState extends State<ListScene> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -59,6 +60,7 @@ class _ListSceneState extends State<ListScene> {
               },
             ),
           ],
+
         ),
       ),
       body: Column(
@@ -76,7 +78,7 @@ class _ListSceneState extends State<ListScene> {
                     margin: EdgeInsets.symmetric(horizontal: 8),
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: isSelected ? Colors.red : Colors.grey.shade300,
+                      color: isSelected ? Colors.red : Colors.white,
                       shape: BoxShape.circle,
                       border: Border.all(color: isToday ? Colors.red : Colors.transparent, width: 2),
                     ),

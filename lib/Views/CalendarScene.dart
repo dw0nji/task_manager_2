@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:task_manager/Views/ListScene.dart';
+import 'package:task_manager/Views/ProfilePage.dart'; // Import ProfilePage
 
 void main() {
   runApp(MaterialApp(
@@ -74,32 +75,25 @@ class _CalendarSceneState extends State<CalendarScene> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          DateFormat.yMMMM().format(focusedMonth),
-          style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              DateFormat.yMMMM().format(focusedMonth),
+              style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              icon: Icon(Icons.account_circle, color: Colors.black),
+              onPressed: () {
+                // Navigate to ProfilePage when pressed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
+              },
+            ),
+          ],
         ),
-        actions: [
-          DropdownButton(
-            value: "My Inbox",
-            underline: Container(),
-            items: [
-              DropdownMenuItem(
-                value: "My Inbox",
-                child: Text("My Inbox"),
-              ),
-              DropdownMenuItem(
-                value: "Work Team",
-                child: Text("Work Team"),
-              ),
-            ],
-            onChanged: (value) {},
-            icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-          ),
-          IconButton(
-            icon: Icon(Icons.account_circle, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -112,101 +106,130 @@ class _CalendarSceneState extends State<CalendarScene> {
           }
           return true;
         },
-        child: Column(
-          children: [
-            GridView.builder(
-              shrinkWrap: true,
-              itemCount: 7,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7,
-                childAspectRatio: 2,
-              ),
-              itemBuilder: (context, index) {
-                const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-                return Center(
-                  child: Text(
-                    days[index],
-                    style: TextStyle(fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // Align all children to the left
+            children: [
+              DropdownButton<String>(
+                value: "My Inbox",
+                underline: Container(),
+                items: [
+                  DropdownMenuItem(
+                    value: "My Inbox",
+                    child: Text("My Inbox"),
                   ),
-                );
-              },
-            ),
-            Expanded(
-              child: ListView.separated(
-                itemCount: (days.length / 7).ceil(),
-                separatorBuilder: (context, index) => Divider(color: Colors.grey.shade300),
-                itemBuilder: (context, weekIndex) {
-                  return Row(
-                    children: List.generate(7, (dayIndex) {
-                      final dateIndex = weekIndex * 7 + dayIndex;
-                      if (dateIndex >= days.length) return Expanded(child: Container());
-                      final date = days[dateIndex];
-                      final isToday = date != null &&
-                          date.year == DateTime.now().year &&
-                          date.month == DateTime.now().month &&
-                          date.day == DateTime.now().day;
-
-                      final dayEvents = date != null ? events[date] : null;
-
-                      return Expanded(
-                        child: GestureDetector(
-                          onTap: date != null ? () => _goToDatePage(date) : null,
-                          child: Container(
-                            margin: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: isToday ? Colors.red : Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (date != null)
-                                  Text(
-                                    DateFormat('d').format(date),
-                                    style: TextStyle(
-                                      color: isToday ? Colors.white : Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                if (dayEvents != null)
-                                  Column(
-                                    children: dayEvents.take(3).map((event) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 2),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                          decoration: BoxDecoration(
-                                            color: event.contains("Christmas")
-                                                ? Colors.green
-                                                : event.contains("Gym")
-                                                ? Colors.red
-                                                : Colors.blue,
-                                            borderRadius: BorderRadius.circular(12),
-                                          ),
-                                          child: Text(
-                                            event,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 10,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            maxLines: 1,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
+                  DropdownMenuItem(
+                    value: "Work Team",
+                    child: Text("Work Team"),
+                  ),
+                ],
+                onChanged: (value) {},
+                icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+              ),
+              // Calendar Grid
+              GridView.builder(
+                shrinkWrap: true,
+                itemCount: 7,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 7,
+                  childAspectRatio: 2,
+                ),
+                itemBuilder: (context, index) {
+                  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+                  return Center(
+                    child: Text(
+                      days[index],
+                      style: TextStyle(
+                        color: Colors.grey[900],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   );
                 },
               ),
-            ),
-          ],
+              Divider(color: Colors.grey[400]),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: (days.length / 7).ceil(),
+                  separatorBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0), // Horizontal padding of 10
+                    child: Divider(color: Colors.grey[200]),
+                  ),
+                  itemBuilder: (context, weekIndex) {
+                    return Row(
+                      children: List.generate(7, (dayIndex) {
+                        final dateIndex = weekIndex * 7 + dayIndex;
+                        if (dateIndex >= days.length) return Expanded(child: Container());
+                        final date = days[dateIndex];
+                        final isToday = date != null &&
+                            date.year == DateTime.now().year &&
+                            date.month == DateTime.now().month &&
+                            date.day == DateTime.now().day;
+
+                        final dayEvents = date != null ? events[date] : null;
+
+                        return Expanded(
+                          child: GestureDetector(
+                            onTap: date != null ? () => _goToDatePage(date) : null,
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: isToday ? Colors.red : Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (date != null)
+                                    Text(
+                                      DateFormat('d').format(date),
+                                      style: TextStyle(
+                                        color: isToday ? Colors.white : Colors.grey[900],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  if (dayEvents != null)
+                                    Column(
+                                      children: dayEvents.take(3).map((event) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 2),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: event.contains("Christmas")
+                                                  ? Colors.green
+                                                  : event.contains("Gym")
+                                                  ? Colors.red
+                                                  : Colors.blue,
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                            child: Text(
+                                              event,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
