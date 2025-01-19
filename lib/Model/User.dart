@@ -1,16 +1,23 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'Task.dart';
 
 class User {
   String username;
   HashSet<Task> tasks;
-  User(this.username):
-    tasks = HashSet<Task>();
+  late FirebaseFirestore _db ;
 
-  User.noName()
-      : tasks = HashSet<Task>(),
-  username = "";
+  User(this.username):
+    tasks = HashSet<Task>(),
+    _db = FirebaseFirestore.instance;
+
+
+  User.noName():
+        tasks = HashSet<Task>(),
+        username = "",
+        _db = FirebaseFirestore.instance;
 
   // Get the username
   String getUsername() {
@@ -50,9 +57,42 @@ class User {
   }
 
   // Get tasks from the database (stubbed out, implement as needed)
-  HashSet<Task> getTasksDb() {
-    // Logic to retrieve tasks from the database
-    return HashSet<Task>();
+  Future<void> retrieveTasksDb() async {
+
+    //TODO: Add auth check
+
+    DocumentReference userRef = _db.doc('/User/User'); //TODO: change this to user $user
+
+    print("calling db");
+    final docRef = _db
+        .collection("Tasks")
+        .where('UserID', isEqualTo: userRef)
+        .withConverter<Task>(
+      fromFirestore: Task.fromFirestore,
+      toFirestore: (Task task, _) => task.toFirestore(userRef),
+    );
+    // _db
+    //     .collection("Tasks")
+    //     .withConverter<Task>(
+    //   fromFirestore: Task.fromFirestore,
+    //   toFirestore: (Task task, _) => task.toFirestore(),
+    // ).add(new Task(title: "hello", description: "test", date: new DateTime(2025,1,1)));
+    docRef.get().then(
+          (querySnapshot) {
+        for (var docSnapshot in querySnapshot.docs) {
+          try {
+            Task data = docSnapshot.data();
+            addTask(data);
+          }catch(e){
+            print("conversion failed");
+          }
+
+          print('${docSnapshot.id} => ${docSnapshot.data()}');
+        }
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+
   }
 
   // Update tasks in the database (stubbed out, implement as needed)

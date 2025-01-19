@@ -31,7 +31,7 @@ class _TaskFormState extends State<TaskForm>{
   void _onSubmit(){
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save(); // Save the form data
-      Provider.of<MainController>(context, listen: false).addTask(Task(_title, _description, _date));
+      Provider.of<MainController>(context, listen: false).addTask(Task(title: _title,description:  _description,date:  _date, isCompleted: false, isRecurring: false));
       Navigator.pop(context);
     }
   }
