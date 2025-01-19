@@ -1,10 +1,13 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../Model/Task.dart';
 import '../Model/User.dart';
 import '../Model/auth.dart';
+import '../firebase_options.dart';
 
 class MainController extends ChangeNotifier {
   //The statemanagement implementation I went for was to utilize ChangeNotifier,
@@ -12,26 +15,22 @@ class MainController extends ChangeNotifier {
   //for views to call functions or access date we can use Consumer and Provider.
   //read about Consumer and provider here:
   //https://docs.flutter.dev/data-and-backend/state-mgmt/simple
-
   late AppAuth _auth;
   late User _user;
+  late FirebaseFirestore db ;
+
+
   MainController() {
     _auth = AppAuth();
     _user = User.noName();
-    _init();
+    db = FirebaseFirestore.instance;
+
   }
 
   get getAuth => _auth; //encapsulation for security, not allowing anyone to change _auth
 
-  void _init(){
 
-    //Test data
-    _user.addTask(Task("poo", "hello", DateTime.now()));
-    _user.addTask(Task("drink water", "drink 2L", DateTime(2025,1,1,5)));
-    _user.addTask(Task("be sigma", " so so sigma", DateTime(2025,1,1,2)));
-    _user.addTask(Task("be sigma 2", " so so sigma 2", DateTime(2025,1,1,2)));
 
-  }
   HashSet<Task> getTasks(DateTime? date) {
     return date == null ? _user.getTasks() : _user.getTasksByDay(date!);
   }
