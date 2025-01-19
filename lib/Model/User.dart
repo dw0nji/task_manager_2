@@ -63,7 +63,6 @@ class User {
 
     DocumentReference userRef = _db.doc('/User/User'); //TODO: change this to user $user
 
-    print("calling db");
     final docRef = _db
         .collection("Tasks")
         .where('UserID', isEqualTo: userRef)
@@ -71,12 +70,6 @@ class User {
       fromFirestore: Task.fromFirestore,
       toFirestore: (Task task, _) => task.toFirestore(userRef),
     );
-    // _db
-    //     .collection("Tasks")
-    //     .withConverter<Task>(
-    //   fromFirestore: Task.fromFirestore,
-    //   toFirestore: (Task task, _) => task.toFirestore(),
-    // ).add(new Task(title: "hello", description: "test", date: new DateTime(2025,1,1)));
     docRef.get().then(
           (querySnapshot) {
         for (var docSnapshot in querySnapshot.docs) {
@@ -95,12 +88,21 @@ class User {
 
   }
 
-  // Update tasks in the database (stubbed out, implement as needed)
-  void updateTasksDb() {
-    // Logic to update tasks in the database
+  Future<void> addTasksDb() async {
+    DocumentReference userRef = _db.doc('/User/$username');
+
+    final docRef = _db
+        .collection("Tasks")
+        .withConverter<Task>(
+      fromFirestore: Task.fromFirestore,
+      toFirestore: (Task task, _) => task.toFirestore(userRef),
+    );
+    for(Task task in tasks){
+      docRef.add(task);
+    }
+
   }
 
-  // Remove tasks from the database (stubbed out, implement as needed)
   void removeTaskDb() {
     // Logic to remove tasks from the database
   }
