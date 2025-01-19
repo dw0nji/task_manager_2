@@ -8,6 +8,7 @@ import '../Model/Task.dart';
 import '../Model/User.dart';
 import '../Model/auth.dart';
 import '../firebase_options.dart';
+import 'DBController.dart';
 
 class MainController extends ChangeNotifier {
   //The statemanagement implementation I went for was to utilize ChangeNotifier,
@@ -17,14 +18,13 @@ class MainController extends ChangeNotifier {
   //https://docs.flutter.dev/data-and-backend/state-mgmt/simple
   late AppAuth _auth;
   late User _user;
-  late FirebaseFirestore db ;
-
 
   MainController() {
     _auth = AppAuth();
     _user = User.noName();
-    db = FirebaseFirestore.instance;
-
+    //TODO: uncomment for production
+    _user.retrieveTasksDb();
+    notifyListeners();
   }
 
   get getAuth => _auth; //encapsulation for security, not allowing anyone to change _auth
