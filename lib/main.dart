@@ -7,28 +7,25 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(
-//     options: DefaultFirebaseOptions.currentPlatform,
-//   );
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: AuthPage(),
-//     );
-//   }
-//
-// }
+/*void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AuthPage(),
+    );
+  }
+}*/
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -65,11 +62,12 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   ProfilePage get myProfilePage => ProfilePage();
-  LoginPage get loginPage => LoginPage(onTap: () {  },);
+  AuthPage get authPage => AuthPage();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Task Manager App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
@@ -77,19 +75,20 @@ class MyApp extends StatelessWidget {
       ),
       routerConfig: GoRouter(
         debugLogDiagnostics: true,
-        initialLocation: '/home',
+        initialLocation: '/auth', // change this to change the initial route
         routes: [
           ShellRoute(
             navigatorKey: appShellNavigatorKey,
-            builder: (context, state, child) {
-              return TaskManagerScaffold(
-                selectedIndex: switch (state.uri.path) {
-                  var p when p.startsWith('/home') => 0,
-                  var p when p.startsWith('/profile') => 1,
-                  _ => 0,
-                },
-                child: child,
-              );
+            builder: (context, state, child) { //TODO: This isn't a good use shellroute
+              return child;
+              //   TaskManagerScaffold(
+              //   selectedIndex: switch (state.uri.path) {
+              //     var p when p.startsWith('/home') => 0,
+              //     var p when p.startsWith('/profile') => 1,
+              //     _ => 0,
+              //   },
+              //   child: child,
+              // );
             },
             routes: [
               GoRoute(
@@ -139,11 +138,11 @@ class MyApp extends StatelessWidget {
             ],
           ),
           GoRoute(
-            path: '/login',
+            path: '/auth',
             pageBuilder: (context, state) {
               return FadeTransitionPage<dynamic>(
                 key: state.pageKey,
-                child: loginPage,
+                child: authPage,
               );
             },
           ),

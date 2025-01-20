@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:task_manager/Views/ListScene.dart';
-import 'package:task_manager/Views/ProfilePage.dart'; // Import ProfilePage
+import 'package:task_manager/Views/ProfilePage.dart';
+
+import 'HomePage.dart'; // Import ProfilePage
 
 void main() {
   runApp(MaterialApp(
@@ -11,6 +14,7 @@ void main() {
 }
 
 class CalendarScene extends StatefulWidget {
+  const CalendarScene({super.key});
   @override
   _CalendarSceneState createState() => _CalendarSceneState();
 }
@@ -37,12 +41,18 @@ class _CalendarSceneState extends State<CalendarScene> {
 
   // Navigate to the ListScene for a selected date
   void _goToDatePage(DateTime date) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ListScene(selectedDate: date),
-      ),
-    );
+    final goRouter = GoRouter.of(context);
+
+    goRouter.go("/home/${date}");
+
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) =>
+    //         ListScene(selectedDate: date)
+    //         //MyHomePage(current: date, title: 'HomePage',),
+    //   ),
+    // );
   }
 
   // Update the focused month (swipe up or down)
@@ -54,6 +64,9 @@ class _CalendarSceneState extends State<CalendarScene> {
 
   @override
   Widget build(BuildContext context) {
+    final goRouter = GoRouter.of(context);
+
+
     final firstDayOfMonth = _firstDayOfMonth(focusedMonth);
     final lastDayOfMonth = _lastDayOfMonth(focusedMonth);
     final daysInMonth = lastDayOfMonth.day;

@@ -11,6 +11,7 @@ class User {
 
   User(this.username):
     tasks = HashSet<Task>(),
+
     _db = FirebaseFirestore.instance;
 
 

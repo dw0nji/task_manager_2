@@ -22,6 +22,8 @@ class MainController extends ChangeNotifier {
   MainController() {
     _auth = AppAuth();
     _user = User.noName();
+    Task task = Task(title: "poo", description: "no", date: DateTime.now().add(Duration(days:1)), isRecurring: false, isCompleted: false);
+    addTask(task);
     //TODO: uncomment for production
     //_user.retrieveTasksDb();
     //notifyListeners();
