@@ -56,20 +56,22 @@ class User {
     //
   }
 
-  // Get tasks from the database (stubbed out, implement as needed)
   Future<void> retrieveTasksDb() async {
 
     //TODO: Add auth check
 
     DocumentReference userRef = _db.doc('/User/User'); //TODO: change this to user $user
 
+
+    //gets all the documents by UserID
     final docRef = _db
         .collection("Tasks")
         .where('UserID', isEqualTo: userRef)
         .withConverter<Task>(
-      fromFirestore: Task.fromFirestore,
-      toFirestore: (Task task, _) => task.toFirestore(userRef),
+      fromFirestore: Task.fromFirestore, //tells firestore what to do with the custom datatype
+      toFirestore: (Task task, _) => task.toFirestore(userRef), //same here
     );
+
     docRef.get().then(
           (querySnapshot) {
         for (var docSnapshot in querySnapshot.docs) {
@@ -80,7 +82,7 @@ class User {
             print("conversion failed");
           }
 
-          print('${docSnapshot.id} => ${docSnapshot.data()}');
+          //print('${docSnapshot.id} => ${docSnapshot.data()}');
         }
       },
       onError: (e) => print("Error completing: $e"),

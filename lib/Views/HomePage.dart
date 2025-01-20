@@ -83,15 +83,22 @@ class _MyHomePageState extends State<MyHomePage> {
                             //DateTime(0,0,0,0,0,0,0);
 
                             int counter = 0; // counter for data
+                            //create hashmap<int,List<TimeContainer>> for O(1)
+                            //int being the hour
+                            //for loop to add to the hashmap by hour
+                            //then another for loop iterating the hashmap
+                            //if the value list length > 1 then display multipleTask(List<TimeContainer>)
+
                             for (int i = 0; i < 24; i++) {
                               DateTime current = fromMidnight.add(Duration(hours: i));
                               if(counter < data.length && data[counter].date.hour == current.hour) {
                                 TimeContainer container =
+
                                 TimeContainer(date: current,
                                     task: UserTaskUI(task:data[counter])
                                 );
-                                timeContainers2.add(container);
 
+                                timeContainers2.add(container);
                                 i--; // after a successfully add, try the same day to see if more exist
                                 counter++;
                               }else{
