@@ -14,7 +14,6 @@ class TaskManagerScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final goRouter = GoRouter.of(context);
-
     return Scaffold(
       body: child,
 
