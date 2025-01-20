@@ -11,7 +11,7 @@ import '../firebase_options.dart';
 import 'DBController.dart';
 
 class MainController extends ChangeNotifier {
-  //The statemanagement implementation I went for was to utilize ChangeNotifier,
+  //The state management implementation I went for was to utilize ChangeNotifier,
   //whenever we create a method we can use NotifyListeners() to easily update states in the app
   //for views to call functions or access date we can use Consumer and Provider.
   //read about Consumer and provider here:
@@ -23,8 +23,8 @@ class MainController extends ChangeNotifier {
     _auth = AppAuth();
     _user = User.noName();
     //TODO: uncomment for production
-    _user.retrieveTasksDb();
-    notifyListeners();
+    //_user.retrieveTasksDb();
+    //notifyListeners();
   }
 
   get getAuth => _auth; //encapsulation for security, not allowing anyone to change _auth
