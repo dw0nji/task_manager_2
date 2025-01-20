@@ -22,11 +22,12 @@ class MainController extends ChangeNotifier {
   MainController() {
     _auth = AppAuth();
     _user = User.noName();
+    //Test data
     Task task = Task(title: "poo", description: "no", date: DateTime.now().add(Duration(days:1)), isRecurring: false, isCompleted: false);
     addTask(task);
     //TODO: uncomment for production
-    //_user.retrieveTasksDb();
-    //notifyListeners();
+    _user.retrieveTasksDb();
+    notifyListeners();
   }
 
   get getAuth => _auth; //encapsulation for security, not allowing anyone to change _auth
