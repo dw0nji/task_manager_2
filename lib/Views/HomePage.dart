@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
                       children: [
-                        CalendarScrollableSection(),
+                        CalendarScrollableSection(current: widget.current),
 
                         Expanded(child:
                         Consumer<MainController>(
@@ -209,7 +209,14 @@ class TimeContainerState extends State<TimeContainer>{
               widget.task != null ? widget.task! :Spacer(),
 
               Spacer(),
-              Text(compareNow() ? "NOW" : DateFormat('HH:mm').format(widget.date)),
+              Text(compareNow() ? "NOW" : DateFormat('HH:mm').format(widget.date),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black.withValues(alpha: widget.task != null ? 1 : 0.8),
+                  fontWeight: widget.task != null ? FontWeight.bold : null,
+                ),
+
+              ),
 
             ],
           ),
