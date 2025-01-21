@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_manager/Views/components/customButton.dart';
 import 'package:task_manager/Views/components/customTextField.dart';
 import 'package:task_manager/Views/components/imageButton.dart';
@@ -19,9 +20,11 @@ class _LoginPageState extends State<LoginPage> {
 
   final passwordController = TextEditingController();
 
+
+
   // Sign in user method
   void signUserIn() async {
-
+    final goRouter = GoRouter.of(context);
     // Start loading circle
     showDialog(
         context: context,
@@ -40,10 +43,14 @@ class _LoginPageState extends State<LoginPage> {
       );
       // Pop loading circle
       Navigator.pop(context);
+      //Navigate to next page
+      goRouter.go("/calendar");
+
     } on FirebaseAuthException catch (e) {
 
       // Pop loading circle
       Navigator.pop(context);
+
       // Handle wrong email
       if (e.code == 'invalid-email') {
         showErrorMessage("Cannot find an account with that email");

@@ -26,7 +26,6 @@ class MainController extends ChangeNotifier {
     //Test data
     Task task = Task(title: "poo", description: "no", date: DateTime.now().add(Duration(days:1)), isRecurring: false, isCompleted: false);
     addTask(task);
-    //TODO: uncomment for production
     _user.retrieveTasksDb();
     notifyListeners();
   }
