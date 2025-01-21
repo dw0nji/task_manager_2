@@ -17,7 +17,7 @@ class AuthPage extends StatelessWidget {
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          return LoginOrRegisterPage();
+          //return LoginOrRegisterPage();
           if (snapshot.hasData) { // If user is logged in
             return CalendarScene(); // Fix
           } else {
