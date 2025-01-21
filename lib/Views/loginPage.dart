@@ -37,10 +37,12 @@ class _LoginPageState extends State<LoginPage> {
 
     // Try sign in
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      var res = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+      emailController.clear();
+      passwordController.clear();
       // Pop loading circle
       Navigator.pop(context);
       //Navigate to next page
