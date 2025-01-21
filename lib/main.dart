@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:task_manager/Views/HomePage.dart';
 import 'package:task_manager/Views/authPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Views/CalendarScene.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +64,8 @@ class MyApp extends StatelessWidget {
 
   ProfilePage get myProfilePage => ProfilePage();
   AuthPage get authPage => AuthPage();
+  CalendarScene get calendarPage => CalendarScene();
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +138,16 @@ class MyApp extends StatelessWidget {
                   );
                 },
               ),
+              GoRoute(
+                  path: '/calendar',
+                  pageBuilder: (context, state) {
+                    return FadeTransitionPage<dynamic>(
+                      key: state.pageKey,
+                      child: calendarPage,
+                    );
+                  },
+
+              )
             ],
           ),
           GoRoute(
