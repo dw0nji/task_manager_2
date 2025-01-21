@@ -16,6 +16,7 @@ class MainController extends ChangeNotifier {
   //for views to call functions or access date we can use Consumer and Provider.
   //read about Consumer and provider here:
   //https://docs.flutter.dev/data-and-backend/state-mgmt/simple
+
   late AppAuth _auth;
   late User _user;
 

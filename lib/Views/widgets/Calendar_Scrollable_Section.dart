@@ -6,14 +6,15 @@ import 'package:provider/provider.dart';
 import '../../Controllers/MainController.dart';
 
 class CalendarScrollableSection extends StatefulWidget {
-  const CalendarScrollableSection({super.key});
+  const CalendarScrollableSection({super.key, required this.current});
+  final DateTime current;
 
   @override
   State<CalendarScrollableSection> createState() => _CalendarScrollableState();
 }
 
 class _CalendarScrollableState extends State<CalendarScrollableSection> {
-  final List<DateTime> _items = List.generate(20, (index) => DateTime.now().add(Duration(days: index)));
+  late List<DateTime> _items;
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
   int _selectedIndex = -1;
@@ -22,6 +23,7 @@ class _CalendarScrollableState extends State<CalendarScrollableSection> {
   void initState() {
     super.initState();
     _selectedIndex = 0;
+    _items = List.generate(20, (index) => widget.current.add(Duration(days: index)));
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent && !_isLoading) {
@@ -67,7 +69,7 @@ class _CalendarScrollableState extends State<CalendarScrollableSection> {
           return GestureDetector(
             onTap: () {
               goRouter.go("/home/${_items[index]}");
-              print("index: $index");
+              //print("index: $index");
               if (_selectedIndex != index) {
                 setState(() {
                   _selectedIndex = index;
@@ -123,11 +125,11 @@ class DateContainer extends StatelessWidget{
             ),
             Text(
               DateFormat('EEEE').format(current)[0],
-              style: TextStyle(color: !isSelected ? Colors.black : Colors.green, fontSize: 18),
+              style: TextStyle(color: !isSelected ? Colors.black.withValues(alpha: 0.5): Colors.green,fontSize: 15,  fontWeight: FontWeight.bold),
             ),
             Text(
               '${current.day}',
-              style: TextStyle(color: !isSelected ? Colors.black : Colors.green, fontSize: 18),
+              style: TextStyle(color: !isSelected ? Colors.black : Colors.green, fontSize: 15, fontWeight: FontWeight.w500),
             ),
 
           ],
