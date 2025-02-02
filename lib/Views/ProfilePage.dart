@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:task_manager/Views/components/dayStats.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -44,6 +45,7 @@ class ProfilePage extends StatelessWidget {
             Text('UID: ${user.uid}'),
             Text('Email: ${user.email ?? 'No email'}'),
             Text('Display Name: ${user.displayName ?? 'No display name'}'),
+            DayStatWidget(taskCounts: [5,0,1,2,7,3,4,5,6,3,4,5,3,4,0,0,0,0,0,10,2,3,1,0,7,5,3,0],),
             GestureDetector(
               onTap: () async {
                 FirebaseAuth.instance.signOut();

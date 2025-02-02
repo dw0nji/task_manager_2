@@ -105,6 +105,19 @@ class User {
     }
 
   }
+  Future<void> addTaskDb(Task task) async {
+    DocumentReference userRef = _db.doc('/User/$username');
+
+    final docRef = _db
+        .collection("Tasks")
+        .withConverter<Task>(
+      fromFirestore: Task.fromFirestore,
+      toFirestore: (Task task, _) => task.toFirestore(userRef),
+    );
+    docRef.add(task);
+
+
+  }
 
   void removeTaskDb() {
     // Logic to remove tasks from the database
