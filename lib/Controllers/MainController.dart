@@ -32,14 +32,12 @@ class MainController extends ChangeNotifier {
 
   get getAuth => _auth; //encapsulation for security, not allowing anyone to change _auth
 
-
-
   HashSet<Task> getTasks(DateTime? date) {
     return date == null ? _user.getTasks() : _user.getTasksByDay(date!);
   }
-
   void addTask(Task task) {
     _user.addTask(task);
+    _user.addTaskDb(task);
     notifyListeners(); //notifies everyone listening to update
   }
   void removeTask(Task task){
