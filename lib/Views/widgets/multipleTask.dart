@@ -27,9 +27,6 @@ class _MultipleTaskState extends State<MultipleTask> {
         setState(() {
           //print("setting state with ${expanded}");
           isOpen = expanded;
-
-
-
         });
       },
       children: [
