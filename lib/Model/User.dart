@@ -1,22 +1,20 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:task_manager/Model/taskStats.dart';
 
 import 'Task.dart';
 
-class User {
+
+class User with TaskStats{
   String username;
-  HashSet<Task> tasks;
+
   late FirebaseFirestore _db ;
 
   User(this.username):
-    tasks = HashSet<Task>(),
-
     _db = FirebaseFirestore.instance;
 
-
   User.noName():
-        tasks = HashSet<Task>(),
         username = "",
         _db = FirebaseFirestore.instance;
 
@@ -24,8 +22,15 @@ class User {
   String getUsername() {
     return username;
   }
+  void getTaskStats(int index) { // 0 is the last 30 days, 1 is undefined
+    switch (index){
+      case 0:
+        calculateLast30Days();
+        break;
 
-  // Get all tasks
+    }
+  }
+
   HashSet<Task> getTasks() {
     return tasks;
   }
@@ -91,9 +96,10 @@ class User {
 
   }
 
+
+
   Future<void> addTasksDb() async {
     DocumentReference userRef = _db.doc('/User/$username');
-
     final docRef = _db
         .collection("Tasks")
         .withConverter<Task>(
@@ -103,7 +109,6 @@ class User {
     for(Task task in tasks){
       docRef.add(task);
     }
-
   }
   Future<void> addTaskDb(Task task) async {
     DocumentReference userRef = _db.doc('/User/$username');
@@ -125,4 +130,10 @@ class User {
 
 
 
+}
+
+class User2 {
+  void musicianMethod() {
+    print('Playing music!');
+  }
 }
