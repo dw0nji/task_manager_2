@@ -22,7 +22,7 @@ class DayStatWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 2),
+        border: Border.all(color: Colors.grey, width: 1),
         borderRadius: BorderRadius.circular(5),
       ),
       padding: EdgeInsets.all(4),

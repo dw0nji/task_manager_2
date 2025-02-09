@@ -44,6 +44,17 @@ class MainController extends ChangeNotifier {
     _user.removeTask(task);
     notifyListeners();
   }
+  List<int> getTaskStats(int index) { // 0 is the last 30 days, 1 is undefined
+    switch (index){
+      case 0:
+        return _user.calculateLast30Days();
+
+    }
+    print("not here");
+
+    return [];
+  }
+
 
   bool containsDate(DateTime comparable) {
     HashSet<Task> tasks = _user.getTasks();
