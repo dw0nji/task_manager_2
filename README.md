@@ -7,3 +7,5 @@ The project consists of a fully function todo-list section and calendar, for saf
 
 In order to get the Firebase stuff working, please replace the redundant api keys with your own and setup any changes accordingly.
 
+This project was worked on by Jonathan Ewers (Me) and Murray Buchanan.
+
