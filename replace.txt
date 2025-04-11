@@ -1,0 +1,1 @@
+echo "apiKey: 'AIzaSyAk5smU_JOFvvaePoYqRzVIddaiBcvB8ec'==>apiKey: '<insert key>'"
