@@ -47,7 +47,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAk5smU_JOFvvaePoYqRzVIddaiBcvB8ec',
+    apiKey: '<insert key>',
     appId: '1:687550089448:web:03086d53331d04e6e6e15d',
     messagingSenderId: '687550089448',
     projectId: 'task-manager-9d8c5',
