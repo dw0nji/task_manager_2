@@ -1,16 +1,9 @@
 # Task Manager
 
-A new Flutter project.
+Welcome to our Task Manager Flutter project.
 
-## Getting Started
+This project with the sole purpose to familliarize ourselves with Flutter, strengthen our skills like; programming and git. And implementing the MVC Architecture. 
+The project consists of a fully function todo-list section and calendar, for safety reasons, since we didn't think we would make this repository public, there are api keys in the commit history, therefore all api keys have been deleted so don't even get excited!
 
-This project is a starting point for a Flutter application.
+In order to get the Firebase stuff working, please replace the redundant api keys with your own and setup any changes accordingly.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
