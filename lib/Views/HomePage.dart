@@ -112,15 +112,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             //if the value list length > 1 then display multipleTask(List<TimeContainer>)
                             HashMap<int, List<TimeContainer>> found = HashMap();
                             for(int i = 0; i < data.length;i++){
-                              TimeContainer container =
-                              TimeContainer(date: data[i].date,
-                                  task: UserTaskUI(task:data[i])
-                              );
-                              found.putIfAbsent(data[i].date.hour, () => []).add(container);
-                              //counter++;
+                              if(data[i].isCompleted) {
+                                TimeContainer container =
+                                TimeContainer(date: data[i].date,
+                                    task: UserTaskUI(task: data[i])
+                                );
+                                found.putIfAbsent(data[i].date.hour, () => [])
+                                    .add(container);
+                              }
                             }
 
-                            print(found.toString());
                             for (int i = 0; i < 24; i++) {
                               DateTime current = fromMidnight.add(Duration(hours: i));
                               if(found.containsKey(i) && found[i]!.length > 1){ // +1 to get from 0 index to 1 index

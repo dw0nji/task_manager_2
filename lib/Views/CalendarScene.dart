@@ -100,6 +100,7 @@ class _CalendarSceneState extends State<CalendarScene> {
             IconButton(
               icon: Icon(Icons.account_circle, color: Colors.black),
               onPressed: () {
+                //goRouter.go("/profile");
                 // Navigate to ProfilePage when pressed
                 Navigator.push(
                   context,
